@@ -2,3 +2,4 @@
 /.terraform/plugins/windows_amd64/lock.json
 /.terraform/plugins/windows_amd64/terraform-provider-aws_v2.35.0_x4.exe
 /terraform-aws.pub
+/terraform.tfstate
