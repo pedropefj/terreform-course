@@ -11,9 +11,9 @@ provider "aws" {
 
 resource "aws_instance" "dev" {
   count  = 3
-  ami = "ami-04b9e92b5572fa0d1"
+  ami = "${var.amis["us-east-1"]}"
   instance_type = "t2.micro"
-  key_name = "terraform-aws"
+  key_name = "${var.key-name}"
   tags = {
     Name = "dev${count.index}"
   }
@@ -22,9 +22,9 @@ resource "aws_instance" "dev" {
 }
 
 resource "aws_instance" "dev4" {
-  ami = "ami-04b9e92b5572fa0d1"
+  ami = "${var.amis["us-east-1"]}"
   instance_type = "t2.micro"
-  key_name = "terraform-aws"
+  key_name = "${var.key-name}"
   tags = {
     Name = "dev4"
   }
@@ -34,9 +34,9 @@ resource "aws_instance" "dev4" {
 }
 
 resource "aws_instance" "dev5" {
-  ami = "ami-04b9e92b5572fa0d1"
+  ami = "${var.amis["us-east-1"]}"
   instance_type = "t2.micro"
-  key_name = "terraform-aws"
+  key_name = "${var.key-name}"
   tags = {
     Name = "dev5"
   }
@@ -46,9 +46,9 @@ resource "aws_instance" "dev5" {
 
 resource "aws_instance" "dev6" {
   provider = "aws.us-east-2"
-  ami = "ami-0d5d9d301c853a04a"
+  ami = "${var.amis["us-east-2"]}"
   instance_type = "t2.micro"
-  key_name = "terraform-aws"
+  key_name = "${var.key-name}"
   tags = {
     Name = "dev6"
   }
@@ -56,6 +56,19 @@ resource "aws_instance" "dev6" {
   vpc_security_group_ids = ["${aws_security_group.acesso-ssh-us-east-2.id}"]
   depends_on = ["aws_dynamodb_table.dynamodb-homologacao"]
 }
+
+resource "aws_instance" "dev7" {
+  provider = "aws.us-east-2"
+  ami = "${var.amis["us-east-2"]}"
+  instance_type = "t2.micro"
+  key_name = "${var.key-name}"
+  tags = {
+    Name = "dev7"
+  }
+
+  vpc_security_group_ids = ["${aws_security_group.acesso-ssh-us-east-2.id}"]
+}
+
 
 resource "aws_s3_bucket" "dev4" {
   bucket = "rmerceslabs-dev4"
@@ -87,17 +100,12 @@ resource "aws_dynamodb_table" "dynamodb-homologacao" {
     type = "N"
   }
 
-  ttl {
-    attribute_name = "TimeToExist"
-    enabled        = false
-  }
-
   global_secondary_index {
     name               = "GameTitleIndex"
     hash_key           = "GameTitle"
     range_key          = "TopScore"
-    write_capacity     = 10
-    read_capacity      = 10
+    write_capacity     = 0
+    read_capacity      = 0
     projection_type    = "INCLUDE"
     non_key_attributes = ["UserId"]
   }
