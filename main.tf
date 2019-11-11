@@ -80,6 +80,14 @@ resource "aws_s3_bucket" "dev4" {
 }
 */
 
+resource "aws_s3_bucket" "homologacao" {
+  bucket = "rmerceslabs-homologacao"
+  acl    = "private"
+  tags = {
+    Name = "rmerceslabs-homologacao"
+  }
+}
+
 resource "aws_dynamodb_table" "dynamodb-homologacao" {
   provider = "aws.us-east-2"
   name           = "GameScores"
