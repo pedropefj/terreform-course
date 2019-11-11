@@ -1,4 +1,4 @@
-terraform {
+/*terraform {
   backend "remote" {
     hostname = "app.terraform.io"
     organization = "terraform-pedropefj"
@@ -7,4 +7,4 @@ terraform {
       name = "aws-terraform-pedropefj"
     }
   }
-}
+}*/

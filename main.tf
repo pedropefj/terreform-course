@@ -10,15 +10,15 @@ provider "aws" {
 }
 
 resource "aws_instance" "dev" {
+  provider = "aws.us-east-2"
   count  = 3
-  ami = "${var.amis["us-east-1"]}"
+  ami = "${var.amis["us-east-2"]}"
   instance_type = "t2.micro"
   key_name = "${var.key-name}"
   tags = {
-    Name = "dev${count.index}"
+    Name = "course-${count.index}"
   }
-
-  vpc_security_group_ids = ["${aws_security_group.acesso-ssh.id}"]
+  vpc_security_group_ids = ["${aws_security_group.acesso-web.id}"]
 }
 /*
 resource "aws_instance" "dev4" {
@@ -31,7 +31,7 @@ resource "aws_instance" "dev4" {
 
   vpc_security_group_ids = ["${aws_security_group.acesso-ssh.id}"]
   depends_on = ["aws_s3_bucket.dev4"]
-}*/
+}
 
 resource "aws_instance" "dev5" {
   ami = "${var.amis["us-east-1"]}"
@@ -78,7 +78,7 @@ resource "aws_s3_bucket" "dev4" {
     Name = "rmerceslabs-dev4"
   }
 }
-*/
+
 
 resource "aws_s3_bucket" "homologacao" {
   bucket = "rmerceslabs-homologacao"
@@ -124,5 +124,5 @@ resource "aws_dynamodb_table" "dynamodb-homologacao" {
     Name        = "dynamodb-table-1"
     Environment = "production"
   }
-}
+}*/
 
